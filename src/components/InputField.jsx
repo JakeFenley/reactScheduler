@@ -15,7 +15,10 @@ class InputField extends Component {
           placeholder={"Click to add a new " + type}
         ></input>
         <button
-          onClick={() => onAdd(this.state.inputValue)}
+          onClick={() => {
+            onAdd(this.state.inputValue);
+            this.resetInputValue();
+          }}
           className={this.formatBtn()}
         >
           Add {type}
@@ -23,6 +26,11 @@ class InputField extends Component {
       </div>
     );
   }
+
+  resetInputValue = () => {
+    let inputValue = "";
+    this.setState({ inputValue });
+  };
 
   updateInputValue(e) {
     this.setState({ inputValue: e.target.value });

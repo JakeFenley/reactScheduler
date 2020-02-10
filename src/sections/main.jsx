@@ -32,6 +32,7 @@ class Main extends Component {
           onDelete={this.handleProjectDelete}
         ></Projects>
         <Project
+          onDelete={this.handleTaskDelete}
           onSelect={this.handleTaskSelect}
           onAdd={this.handleTaskAdd}
           project={this.getCurrentProject()}
@@ -40,6 +41,18 @@ class Main extends Component {
       </div>
     );
   }
+  handleTaskDelete = id => {
+    for (var i = 0; i <= this.state.projects.length - 1; i++) {
+      for (var y = 0; y <= this.state.projects[i].tasks.length - 1; y++) {
+        if (this.state.projects[i].tasks[y].id === id) {
+          let projects = this.state.projects;
+          projects[i].tasks.splice(y, 1);
+          this.setState({ projects });
+          return;
+        }
+      }
+    }
+  };
 
   handleViewAll = () => {
     const currentProjectID = 0;
