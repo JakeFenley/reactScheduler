@@ -1,17 +1,41 @@
 import React, { Component } from "react";
+import Moment from "react-moment";
 
 class Task extends Component {
   render() {
-    const { task } = this.props;
+    const { task, onEdit } = this.props;
     if (task) {
       return (
-        <main className="col-4">
-          <p>{task.name}</p>
-          <p>{task.date}</p>
+        <main className="col-4 d-flex flex-column justify-content-between task-container ml-4">
+          <div className="mt-4">
+            <h5 className="pb-2">{task.name}</h5>
+            <Moment format="DD/MM/YYYY">{task.date}</Moment>
+            <div>
+              <Moment format="LT">{task.date}</Moment>
+            </div>
+            <div className="d-flex justify-content-between">
+              <p>{task.desc}</p>
+            </div>
+          </div>
+          <div className="row justify-content-between">
+            <div className="col-1"></div>
+            <label
+              onClick={() => onEdit()}
+              className="badge badge-pill edit-add-btn align-middle px-3 mr-4"
+            >
+              <span className=" align-middle">Edit/Add Details</span>
+            </label>
+          </div>
         </main>
       );
     } else {
-      return <div></div>;
+      return (
+        <main className="col-4 d-flex flex-column justify-content-between task-container ml-4">
+          <div className="mt-4">
+            <h5>No Task Selected</h5>
+          </div>
+        </main>
+      );
     }
   }
 }

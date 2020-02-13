@@ -1,0 +1,107 @@
+#main-section {
+  height: 35vw;
+}
+
+#task-editor-wrap {
+  position: absolute;
+  right: 0;
+  top: 6vw;
+  left: 0;
+  z-index: 1;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+
+#task-editor {
+  position: relative;
+  box-shadow: 0 0 5px 1px;
+  background: #666;
+  width: 33vw;
+  height: 34vw;
+  margin-left: auto;
+  margin-right: auto;
+  right: 0;
+  left: 0;
+}
+
+body {
+  background: var(--primary-color);
+}
+
+:root {
+  --box-shadow-color: rgba(77, 77, 77, 0.65);
+  --delete-btn-color: rgb(255, 0, 0);
+  --edit-btn-color: rgba(112, 112, 116, 0.856);
+  --primary-color: rgb(233, 233, 233);
+  --secondary-color: rgb(212, 212, 212);
+}
+
+.selector {
+  cursor: pointer;
+  transition: all 0.05s linear;
+  font-weight: 600;
+}
+
+.selector:hover {
+  transform: scale(1.01, 1.01);
+  text-shadow: 0px 0.5px rgb(187, 187, 187);
+  font-weight: 600;
+}
+
+.td-navbar {
+  background: var(--secondary-color);
+  z-index: 3;
+}
+
+.edit-add-btn {
+  background: var(--edit-btn-color);
+  color: rgb(221, 221, 221);
+}
+
+.delete-btn {
+  background: var(--delete-btn-color);
+  color: rgb(0, 0, 0);
+}
+
+.projects-list {
+  -webkit-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  -moz-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  background: var(--primary-color);
+}
+
+.task-container {
+  -webkit-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  -moz-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
+  background: var(--primary-color);
+}
+
+.todo-calendar {
+  position: absolute;
+  top: 5%;
+  margin-right: auto;
+  margin-left: auto;
+  left: 0;
+  right: 0;
+
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+
+#task-editor-wrap.todo-visible {
+  opacity: 0.96;
+  visibility: visible;
+}
+
+#task-editor-wrap.todo-hidden {
+  visibility: hidden;
+  opacity: 0 !important;
+}
+
+.todo-calendar.todo-hidden {
+  opacity: 0 !important;
+  visibility: hidden;
+}
+
+.todo-calendar.todo-visible {
+  opacity: 1 !important;
+}

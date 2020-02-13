@@ -21,7 +21,7 @@ class InputField extends Component {
           }}
           className={this.formatBtn()}
         >
-          Add {type}
+          +
         </button>
       </div>
     );
@@ -39,7 +39,7 @@ class InputField extends Component {
   formatBtn() {
     const { type } = this.props;
     if (type === "Project") {
-      return "btn btn-outline-light";
+      return "btn btn-outline-dark";
     } else if (type === "Task") {
       return "btn btn-outline-dark";
     }
