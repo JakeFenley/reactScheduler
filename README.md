@@ -1,1 +1,1 @@
-My Todo-list App remade in react. (WIP)
+My first react app, I took my todolist project and rebuilt it in react.
