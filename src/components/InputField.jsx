@@ -5,13 +5,15 @@ class InputField extends Component {
     inputValue: ""
   };
   render() {
-    const { type, onAdd } = this.props;
+    const { type, onAdd, inputDisabled } = this.props;
     return (
-      <div className="input-group">
+      <div id="form-group">
         <input
+          key="InputField"
+          disabled={inputDisabled}
           value={this.state.inputValue}
           onChange={e => this.updateInputValue(e)}
-          className="form-control"
+          className="form-input-lg"
           placeholder={"Click to add a new " + type}
         ></input>
         <button
@@ -19,7 +21,7 @@ class InputField extends Component {
             onAdd(this.state.inputValue);
             this.resetInputValue();
           }}
-          className={this.formatBtn()}
+          className="form-btn"
         >
           +
         </button>
@@ -34,15 +36,6 @@ class InputField extends Component {
 
   updateInputValue(e) {
     this.setState({ inputValue: e.target.value });
-  }
-
-  formatBtn() {
-    const { type } = this.props;
-    if (type === "Project") {
-      return "btn btn-outline-dark";
-    } else if (type === "Task") {
-      return "btn btn-outline-dark";
-    }
   }
 }
 

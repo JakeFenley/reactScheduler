@@ -34,28 +34,43 @@ class Main extends Component {
     currentTaskID: 1,
     projectsCounter: 1,
     taskCounter: 2,
-    mainToggle: "todo-hidden"
+    mainToggle: "todo-hidden",
+    inputDisabled: false
   };
 
   showSettings(event) {
     event.preventDefault();
   }
 
+  formatOverlay = () => {
+    if (this.state.inputDisabled === false) {
+      return "task-editor-overlay todo-hidden";
+    } else {
+      return "task-editor-overlay todo-visible";
+    }
+  };
+
   render() {
     return (
       <div id="Wrapper">
         <Burger></Burger>
         <div id="inner-container" className="container-fluid">
+          <div
+            onClick={this.handleTaskEditToggle}
+            className={this.formatOverlay()}
+          ></div>
           <Navbar></Navbar>
+          <TaskEditor
+            onNameChange={this.handleNameUpdate}
+            onTimeChange={this.handleTimeUpdate}
+            onDateChange={this.handleDateUpdate}
+            task={this.getCurrentTask()}
+            onClose={this.handleTaskEditToggle}
+            mainToggle={this.state.mainToggle}
+          ></TaskEditor>
           <section className="row" id="main-section">
-            <TaskEditor
-              onTimeChange={this.handleTimeUpdate}
-              onDateChange={this.handleDateUpdate}
-              task={this.getCurrentTask()}
-              onClose={this.handleCloseTaskEdit}
-              mainToggle={this.state.mainToggle}
-            ></TaskEditor>
             <Projects
+              inputDisabled={this.state.inputDisabled}
               viewAll={this.handleViewAll}
               onSelect={this.handleProjectSelect}
               projects={this.state.projects}
@@ -64,6 +79,7 @@ class Main extends Component {
             ></Projects>
 
             <Project
+              inputDisabled={this.state.inputDisabled}
               onDelete={this.handleTaskDelete}
               onSelect={this.handleTaskSelect}
               onAdd={this.handleTaskAdd}
@@ -71,7 +87,7 @@ class Main extends Component {
             ></Project>
 
             <Task
-              onEdit={this.handleOpenTaskEdit}
+              onEdit={this.handleTaskEditToggle}
               task={this.getCurrentTask()}
             ></Task>
           </section>
@@ -79,37 +95,44 @@ class Main extends Component {
       </div>
     );
   }
+  _updateTaskState = task => {
+    const projects = this.state.projects;
+    const tIndex = this.getTaskIndex(task);
+    const pIndex = this.getProjectIndex(task.id, tIndex);
+    projects[pIndex].tasks[tIndex] = task;
+    this.setState({ projects });
+  };
+
+  handleNameUpdate = e => {
+    const task = this.getCurrentTask();
+    task.name = e.target.value;
+    this._updateTaskState(task);
+  };
 
   handleTimeUpdate = e => {
     if (e !== null) {
-      let projects = this.state.projects;
       const task = this.getCurrentTask();
-      const tIndex = this.getTaskIndex(task);
-      const pIndex = this.getProjectIndex(task.id, tIndex);
-      const hr = e._d.getHours();
-      const min = e._d.getMinutes();
-      const y = projects[pIndex].tasks[tIndex].date.getFullYear();
-      const m = projects[pIndex].tasks[tIndex].date.getMonth();
-      const d = projects[pIndex].tasks[tIndex].date.getDate();
-      task.date = new Date(y, m, d, hr, min);
-      projects[pIndex].tasks[tIndex] = task;
-      this.setState({ projects });
+      task.date = new Date(
+        task.date.getFullYear(),
+        task.date.getMonth(),
+        task.date.getDate(),
+        e._d.getHours(),
+        e._d.getMinutes()
+      );
+      this._updateTaskState(task);
     }
   };
 
   handleDateUpdate = e => {
-    let projects = this.state.projects;
     const task = this.getCurrentTask();
-    const tIndex = this.getTaskIndex(task);
-    const pIndex = this.getProjectIndex(task.id, tIndex);
-    const hr = projects[pIndex].tasks[tIndex].date.getHours();
-    const min = projects[pIndex].tasks[tIndex].date.getMinutes();
-    const y = e.getFullYear();
-    const m = e.getMonth();
-    const d = e.getDate();
-    task.date = new Date(y, m, d, hr, min);
-    projects[pIndex].tasks[tIndex] = task;
-    this.setState({ projects });
+    task.date = new Date(
+      e.getFullYear(),
+      e.getMonth(),
+      e.getDate(),
+      task.date.getHours(),
+      task.date.getMinutes()
+    );
+    this._updateTaskState(task);
   };
 
   getProjectIndex = (taskID, index) => {
@@ -130,17 +153,13 @@ class Main extends Component {
     }
   };
 
-  handleCloseTaskEdit = () => {
-    if (this.state.mainToggle === "todo-visible") {
-      const mainToggle = "todo-hidden";
-      this.setState({ mainToggle });
-    }
-  };
-
-  handleOpenTaskEdit = () => {
+  handleTaskEditToggle = () => {
     if (this.state.mainToggle === "todo-hidden") {
       const mainToggle = "todo-visible";
-      this.setState({ mainToggle });
+      this.setState({ mainToggle, inputDisabled: true });
+    } else if (this.state.mainToggle === "todo-visible") {
+      const mainToggle = "todo-hidden";
+      this.setState({ mainToggle, inputDisabled: false });
     }
   };
 
@@ -148,7 +167,7 @@ class Main extends Component {
     for (var i = 0; i <= this.state.projects.length - 1; i++) {
       for (var y = 0; y <= this.state.projects[i].tasks.length - 1; y++) {
         if (this.state.projects[i].tasks[y].id === id) {
-          let projects = this.state.projects;
+          const projects = this.state.projects;
           projects[i].tasks.splice(y, 1);
           this.setState({ projects });
           return;
@@ -167,7 +186,7 @@ class Main extends Component {
     if (this.state.projects.length > 1) {
       const p = this.state.projects.filter(p => p.id === id);
       const index = this.state.projects.indexOf(p[0]);
-      let projects = this.state.projects;
+      const projects = this.state.projects;
       projects.splice(index, 1);
       this.setState({ projects });
       this.handleViewAll();
@@ -193,7 +212,7 @@ class Main extends Component {
     if (name.length < 1 || this.state.currentProjectID === 0) {
       return;
     } else {
-      let project = this.getCurrentProject();
+      const project = this.getCurrentProject();
       const taskCounter = this.state.taskCounter + 1;
       this.setState({ taskCounter });
       const newTask = {
@@ -219,7 +238,7 @@ class Main extends Component {
         name: name,
         tasks: []
       };
-      let projects = this.state.projects;
+      const projects = this.state.projects;
       projects.push(newProject);
       const currentProjectID = newProject.id;
       this.setState({ projectsCounter, projects, currentProjectID });
@@ -240,7 +259,7 @@ class Main extends Component {
       );
       return currentProject[0];
     } else {
-      let project = {
+      const project = {
         id: 0,
         name: "All Tasks",
         tasks: []

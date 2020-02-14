@@ -3,7 +3,14 @@ import InputField from "./InputField";
 
 class Projects extends Component {
   render() {
-    const { projects, onAdd, onSelect, onDelete, viewAll } = this.props;
+    const {
+      projects,
+      onAdd,
+      onSelect,
+      onDelete,
+      viewAll,
+      inputDisabled
+    } = this.props;
     return (
       <main className="col-sm-2 d-flex flex-column justify-content-between sidebar projects-list">
         <div className="mt-4">
@@ -25,7 +32,11 @@ class Projects extends Component {
           ))}
         </div>
         <div className="mb-2">
-          <InputField onAdd={onAdd} type="Project"></InputField>
+          <InputField
+            inputDisabled={inputDisabled}
+            onAdd={onAdd}
+            type="Project"
+          ></InputField>
         </div>
       </main>
     );

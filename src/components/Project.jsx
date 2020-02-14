@@ -3,7 +3,7 @@ import InputField from "./InputField";
 
 class Project extends Component {
   render() {
-    const { onAdd, onSelect, project, onDelete } = this.props;
+    const { onAdd, onSelect, project, onDelete, inputDisabled } = this.props;
     if (project.id > 0) {
       return (
         <main className="col-3 d-flex flex-column justify-content-between task-container ml-4">
@@ -24,7 +24,11 @@ class Project extends Component {
             ))}
           </div>
           <div className="mb-2">
-            <InputField onAdd={onAdd} type="Task"></InputField>
+            <InputField
+              inputDisabled={inputDisabled}
+              onAdd={onAdd}
+              type="Task"
+            ></InputField>
           </div>
         </main>
       );

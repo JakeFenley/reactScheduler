@@ -17,7 +17,8 @@ class TaskEditor extends Component {
       onClose,
       onDateChange,
       task,
-      onTimeChange
+      onTimeChange,
+      onNameChange
     } = this.props;
 
     if (task) {
@@ -28,7 +29,7 @@ class TaskEditor extends Component {
               value={task.date}
               className={this.state.calendarToggle + " todo-calendar"}
               onChange={e => {
-                this.onCalClose(e);
+                this.onCalToggle();
                 onDateChange(e);
               }}
             ></Calendar>
@@ -44,18 +45,18 @@ class TaskEditor extends Component {
             <div className="row justify-content-around">
               <form onSubmit={this.submitHandler}>
                 <input
-                  onChange={e => this.updateTitle(e)}
+                  onChange={e => onNameChange(e)}
                   value={task.name}
                 ></input>
               </form>
               <button
-                onClick={() => this.onCalOpen()}
+                onClick={() => this.onCalToggle()}
                 className="btn btn-light"
               >
                 Date
               </button>
             </div>
-            <div className="row mx-1">
+            <div className="row justify-content-between align-items-center mx-4 mt-5">
               <TimePicker
                 showSecond={false}
                 defaultOpenValue={this.formatTime(task.date)}
@@ -64,7 +65,12 @@ class TaskEditor extends Component {
                 use12Hours
                 onChange={e => onTimeChange(e)}
               ></TimePicker>
-              <p></p>
+
+              <label className="check-wrap">
+                Priority?
+                <input type="checkbox"></input>
+                <span className="checkmark"></span>
+              </label>
             </div>
           </div>
         </main>
@@ -85,17 +91,12 @@ class TaskEditor extends Component {
     e.preventDefault();
   };
 
-  onCalOpen = () => {
+  onCalToggle = () => {
     if (this.state.calendarToggle === "todo-hidden") {
       const calendarToggle = "todo-visible";
       this.setState({ calendarToggle });
-    }
-  };
-
-  onCalClose = e => {
-    if (this.state.calendarToggle === "todo-visible") {
+    } else if (this.state.calendarToggle === "todo-visible") {
       const calendarToggle = "todo-hidden";
-
       this.setState({ calendarToggle });
     }
   };

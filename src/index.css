@@ -1,13 +1,19 @@
 #main-section {
   height: 35vw;
+  z-index: 0;
+  position: relative;
 }
 
 #task-editor-wrap {
   position: absolute;
+  width: 33vw;
+  height: 34vw;
   right: 0;
   top: 6vw;
   left: 0;
-  z-index: 1;
+  z-index: 1001;
+  margin-right: auto;
+  margin-left: auto;
   transition: visibility 0.3s linear, opacity 0.3s linear;
 }
 
@@ -15,8 +21,8 @@
   position: relative;
   box-shadow: 0 0 5px 1px;
   background: #666;
-  width: 33vw;
-  height: 34vw;
+  width: 100%;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
   right: 0;
@@ -33,6 +39,21 @@ body {
   --edit-btn-color: rgba(112, 112, 116, 0.856);
   --primary-color: rgb(233, 233, 233);
   --secondary-color: rgb(212, 212, 212);
+}
+
+.task-editor-overlay {
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease 0s, transform 0s ease 0.3s;
+}
+
+.taskinfo {
+  font-weight: 600;
 }
 
 .selector {
@@ -78,13 +99,23 @@ body {
 
 .todo-calendar {
   position: absolute;
-  top: 5%;
+  top: 25%;
   margin-right: auto;
   margin-left: auto;
   left: 0;
   right: 0;
-
+  z-index: 500;
   transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+
+.task-editor-overlay.todo-visible {
+  opacity: 0.96;
+  visibility: visible;
+}
+
+.task-editor-overlay.todo-hidden {
+  visibility: hidden;
+  opacity: 0 !important;
 }
 
 #task-editor-wrap.todo-visible {
@@ -104,4 +135,124 @@ body {
 
 .todo-calendar.todo-visible {
   opacity: 1 !important;
+}
+
+#form-group {
+  display: flex;
+  justify-content: center;
+}
+
+.form-btn {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  border-radius: 15px;
+  border: 1px solid rgba(78, 78, 78, 0.71);
+  flex: 0 0 25%;
+  max-width: 45px;
+  font-size: 1em;
+  text-align: center;
+  margin-left: 0.5em;
+  background: var(--primary-color);
+  box-shadow: 0px 0px 3px 2px var(--secondary-color);
+}
+
+.form-btn:hover {
+  box-shadow: 0px 0px 3px 2px rgba(35, 76, 237, 0.71);
+  border: 1px solid rgba(35, 76, 237, 0.71);
+  background: rgb(75, 75, 75);
+  color: white;
+}
+
+.form-btn:focus {
+  outline: 0;
+}
+
+.form-input-lg {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  border-radius: 25px;
+  border: 1px solid rgba(78, 78, 78, 0.71);
+  flex: 0 0 75%;
+  max-width: 75%;
+  padding: 8px 10px;
+  background: var(--primary-color);
+  box-shadow: 0px 0px 3px 2px var(--secondary-color);
+}
+
+.form-input-lg:focus {
+  box-shadow: 0px 0px 3px 2px rgba(35, 76, 237, 0.71);
+  border: 1px solid rgba(35, 76, 237, 0.71);
+  outline: 0;
+}
+
+.rc-time-picker-clear {
+  display: none !important;
+}
+
+/* Customize the label (the container) */
+.check-wrap {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.check-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.check-wrap:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.check-wrap input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  visibility: hidden;
+}
+
+/* Show the checkmark when checked */
+.check-wrap input:checked ~ .checkmark:after {
+  visibility: visible;
+}
+
+/* Style the checkmark/indicator */
+.check-wrap .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

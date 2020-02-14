@@ -9,12 +9,16 @@ class Task extends Component {
         <main className="col-4 d-flex flex-column justify-content-between task-container ml-4">
           <div className="mt-4">
             <h5 className="pb-2">{task.name}</h5>
-            <Moment format="DD/MM/YYYY">{task.date}</Moment>
-            <div>
-              <Moment format="LT">{task.date}</Moment>
+            <Moment className="taskinfo" format="DD/MM/YYYY">
+              {task.date}
+            </Moment>
+            <div className="mt-2">
+              <Moment className="taskinfo" format="LT">
+                {task.date}
+              </Moment>
             </div>
-            <div className="d-flex justify-content-between">
-              <p>{task.desc}</p>
+            <div className="d-flex justify-content-between mt-2">
+              <p className="taskinfo">{task.desc}</p>
             </div>
           </div>
           <div className="row justify-content-between">
