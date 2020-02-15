@@ -1,3 +1,19 @@
+:root {
+  --box-shadow-color: rgba(77, 77, 77, 0.65);
+  --delete-btn-color: rgba(0, 0, 0, 0.63);
+  --edit-btn-color: rgba(112, 112, 116, 0.856);
+  --primary-color: rgba(255, 255, 255, 0.548);
+  --secondary-color: rgba(212, 212, 212, 0.493);
+  --priority: rgba(245, 94, 7, 0.637);
+  --background-color: rgba(146, 146, 146, 0.363);
+}
+
+body {
+  font-family: "Lora", serif !important;
+  color: rgba(61, 61, 61, 0.719) !important;
+  word-wrap: break-word;
+}
+
 #main-section {
   height: 35vw;
   z-index: 0;
@@ -29,16 +45,18 @@
   left: 0;
 }
 
-body {
-  background: var(--primary-color);
+#Wrapper {
+  background: var(--background-color);
+  height: 100vh;
 }
 
-:root {
-  --box-shadow-color: rgba(77, 77, 77, 0.65);
-  --delete-btn-color: rgb(255, 0, 0);
-  --edit-btn-color: rgba(112, 112, 116, 0.856);
-  --primary-color: rgb(233, 233, 233);
-  --secondary-color: rgb(212, 212, 212);
+.priority {
+  padding: 0.2rem 0.5rem;
+  margin-bottom: 0.4rem;
+  margin-left: 0.3rem;
+  border-radius: 1rem;
+  text-align: center;
+  background: var(--priority);
 }
 
 .task-editor-overlay {
@@ -52,25 +70,59 @@ body {
   transition: all 0.3s ease 0s, transform 0s ease 0.3s;
 }
 
+.project-title,
+.task-title {
+  border-bottom: solid 1px rgb(189, 189, 189);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.15s linear;
+}
+
 .taskinfo {
   font-weight: 600;
 }
 
 .selector {
+  padding: 0.2rem 0.5rem;
+  margin-bottom: 0.4rem;
+  margin-left: 0.3rem;
   cursor: pointer;
-  transition: all 0.05s linear;
+  transition: all 0.15s linear;
   font-weight: 600;
+
+  max-width: 65%;
 }
 
+.delete-btn-wrap {
+  display: flex;
+  align-items: center;
+  flex: 0 0 28%;
+  max-width: 28%;
+  max-height: 10%;
+  margin-right: 0.5rem;
+}
+
+.delete-btn {
+  background: var(--delete-btn-color);
+  padding: 0.1rem 0.8rem;
+  border-radius: 10rem;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.15s linear;
+  color: rgba(255, 255, 255, 0.884);
+}
+
+.delete-btn:hover,
 .selector:hover {
-  transform: scale(1.01, 1.01);
-  text-shadow: 0px 0.5px rgb(187, 187, 187);
+  transform: scale(1.05, 1.05);
   font-weight: 600;
 }
 
 .td-navbar {
   background: var(--secondary-color);
   z-index: 3;
+  border-bottom: 1px solid rgba(112, 112, 112, 0.342);
 }
 
 .edit-add-btn {
@@ -78,16 +130,14 @@ body {
   color: rgb(221, 221, 221);
 }
 
-.delete-btn {
-  background: var(--delete-btn-color);
-  color: rgb(0, 0, 0);
-}
-
 .projects-list {
   -webkit-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
   -moz-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
   box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
   background: var(--primary-color);
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: var(--secondary-color);
 }
 
 .task-container {
@@ -95,6 +145,9 @@ body {
   -moz-box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
   box-shadow: 0px 17px 38px 2px var(--box-shadow-color);
   background: var(--primary-color);
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: var(--secondary-color);
 }
 
 .todo-calendar {
@@ -108,38 +161,19 @@ body {
   transition: visibility 0.3s linear, opacity 0.3s linear;
 }
 
-.task-editor-overlay.todo-visible {
-  opacity: 0.96;
-  visibility: visible;
-}
-
-.task-editor-overlay.todo-hidden {
-  visibility: hidden;
-  opacity: 0 !important;
-}
-
-#task-editor-wrap.todo-visible {
-  opacity: 0.96;
-  visibility: visible;
-}
-
-#task-editor-wrap.todo-hidden {
-  visibility: hidden;
-  opacity: 0 !important;
-}
-
-.todo-calendar.todo-hidden {
+.todo-hidden {
   opacity: 0 !important;
   visibility: hidden;
 }
 
-.todo-calendar.todo-visible {
+.todo-visible {
   opacity: 1 !important;
 }
 
 #form-group {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  transition: all 0.3s ease-in-out;
 }
 
 .form-btn {
@@ -147,7 +181,7 @@ body {
   transition: all 0.3s ease-in-out;
   border-radius: 15px;
   border: 1px solid rgba(78, 78, 78, 0.71);
-  flex: 0 0 25%;
+  flex: 0 0 18%;
   max-width: 45px;
   font-size: 1em;
   text-align: center;
@@ -157,8 +191,8 @@ body {
 }
 
 .form-btn:hover {
-  box-shadow: 0px 0px 3px 2px rgba(35, 76, 237, 0.71);
-  border: 1px solid rgba(35, 76, 237, 0.71);
+  box-shadow: 0px 0px 3px 2px rgba(206, 206, 206, 0.71);
+  border: 1px solid rgba(247, 247, 247, 0.582);
   background: rgb(75, 75, 75);
   color: white;
 }
@@ -171,17 +205,17 @@ body {
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   border-radius: 25px;
-  border: 1px solid rgba(78, 78, 78, 0.71);
-  flex: 0 0 75%;
-  max-width: 75%;
+  border: 1px solid rgba(78, 78, 78, 0.418);
+  flex: 0 0 82%;
+  max-width: 82%;
   padding: 8px 10px;
   background: var(--primary-color);
   box-shadow: 0px 0px 3px 2px var(--secondary-color);
 }
 
 .form-input-lg:focus {
-  box-shadow: 0px 0px 3px 2px rgba(35, 76, 237, 0.71);
-  border: 1px solid rgba(35, 76, 237, 0.71);
+  box-shadow: 0px 0px 3px 2px rgba(206, 206, 206, 0.71);
+  border: 1px solid rgba(247, 247, 247, 0.582);
   outline: 0;
 }
 

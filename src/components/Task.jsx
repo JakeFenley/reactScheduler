@@ -6,9 +6,9 @@ class Task extends Component {
     const { task, onEdit } = this.props;
     if (task) {
       return (
-        <main className="col-4 d-flex flex-column justify-content-between task-container ml-4">
+        <main className="col-3 d-flex flex-column justify-content-between task-container ml-4">
           <div className="mt-4">
-            <h5 className="pb-2">{task.name}</h5>
+            <h5 className="task-title">{task.name}</h5>
             <Moment className="taskinfo" format="DD/MM/YYYY">
               {task.date}
             </Moment>

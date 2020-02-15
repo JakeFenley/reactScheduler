@@ -18,8 +18,16 @@ class TaskEditor extends Component {
       onDateChange,
       task,
       onTimeChange,
-      onNameChange
+      onNameChange,
+      onPriorityChange
     } = this.props;
+
+    let opts = {};
+    if (this.props.task !== undefined) {
+      this.props.task.priority === true
+        ? (opts["checked"] = "checked")
+        : (opts["checked"] = "");
+    }
 
     if (task) {
       return (
@@ -68,7 +76,11 @@ class TaskEditor extends Component {
 
               <label className="check-wrap">
                 Priority?
-                <input type="checkbox"></input>
+                <input
+                  onChange={() => onPriorityChange()}
+                  {...opts}
+                  type="checkbox"
+                ></input>
                 <span className="checkmark"></span>
               </label>
             </div>

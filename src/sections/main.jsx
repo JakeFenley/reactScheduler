@@ -18,7 +18,7 @@ class Main extends Component {
             name: "Bananas",
             date: new Date(),
             desc: "Eat a barrel of bananas",
-            priority: true
+            priority: false
           },
           {
             id: 2,
@@ -38,18 +38,6 @@ class Main extends Component {
     inputDisabled: false
   };
 
-  showSettings(event) {
-    event.preventDefault();
-  }
-
-  formatOverlay = () => {
-    if (this.state.inputDisabled === false) {
-      return "task-editor-overlay todo-hidden";
-    } else {
-      return "task-editor-overlay todo-visible";
-    }
-  };
-
   render() {
     return (
       <div id="Wrapper">
@@ -61,6 +49,7 @@ class Main extends Component {
           ></div>
           <Navbar></Navbar>
           <TaskEditor
+            onPriorityChange={this.handlePriorityToggle}
             onNameChange={this.handleNameUpdate}
             onTimeChange={this.handleTimeUpdate}
             onDateChange={this.handleDateUpdate}
@@ -95,12 +84,31 @@ class Main extends Component {
       </div>
     );
   }
+
+  showSettings(event) {
+    event.preventDefault();
+  }
+
+  formatOverlay = () => {
+    if (this.state.inputDisabled === false) {
+      return "task-editor-overlay todo-hidden";
+    } else {
+      return "task-editor-overlay todo-visible";
+    }
+  };
+
   _updateTaskState = task => {
     const projects = this.state.projects;
     const tIndex = this.getTaskIndex(task);
     const pIndex = this.getProjectIndex(task.id, tIndex);
     projects[pIndex].tasks[tIndex] = task;
     this.setState({ projects });
+  };
+
+  handlePriorityToggle = () => {
+    const task = this.getCurrentTask();
+    task.priority === true ? (task.priority = false) : (task.priority = true);
+    this._updateTaskState(task);
   };
 
   handleNameUpdate = e => {
@@ -133,24 +141,6 @@ class Main extends Component {
       task.date.getMinutes()
     );
     this._updateTaskState(task);
-  };
-
-  getProjectIndex = (taskID, index) => {
-    for (var i = 0; i <= this.state.projects.length - 1; i++) {
-      if (this.state.projects[i].tasks[index].id === taskID) {
-        return i;
-      }
-    }
-  };
-
-  getTaskIndex = task => {
-    for (var i = 0; i <= this.state.projects.length - 1; i++) {
-      for (var y = 0; y <= this.state.projects[i].tasks.length - 1; y++) {
-        if (this.state.projects[i].tasks[y].id === task.id) {
-          return y;
-        }
-      }
-    }
   };
 
   handleTaskEditToggle = () => {
@@ -272,6 +262,24 @@ class Main extends Component {
       return project;
     }
   }
+
+  getProjectIndex = (taskID, index) => {
+    for (var i = 0; i <= this.state.projects.length - 1; i++) {
+      if (this.state.projects[i].tasks[index].id === taskID) {
+        return i;
+      }
+    }
+  };
+
+  getTaskIndex = task => {
+    for (var i = 0; i <= this.state.projects.length - 1; i++) {
+      for (var y = 0; y <= this.state.projects[i].tasks.length - 1; y++) {
+        if (this.state.projects[i].tasks[y].id === task.id) {
+          return y;
+        }
+      }
+    }
+  };
 }
 
 export default Main;

@@ -5,10 +5,11 @@ class InputField extends Component {
     inputValue: ""
   };
   render() {
-    const { type, onAdd, inputDisabled } = this.props;
+    const { type, onAdd, inputDisabled, projId } = this.props;
     return (
-      <div id="form-group">
+      <div id="form-group" className={this.formatWrap(projId)}>
         <input
+          onKeyPress={e => this.handleKeyPress(e)}
           key="InputField"
           disabled={inputDisabled}
           value={this.state.inputValue}
@@ -27,6 +28,17 @@ class InputField extends Component {
         </button>
       </div>
     );
+  }
+
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
+      this.props.onAdd(this.state.inputValue);
+      this.resetInputValue();
+    }
+  };
+
+  formatWrap(id) {
+    return id > 0 ? "todo-visible" : "todo-hidden";
   }
 
   resetInputValue = () => {
